@@ -2,6 +2,9 @@ from fastapi import FastAPI
 from api.schemas import Imovel
 from api.services.predict import predict
 from fastapi import HTTPException
+from api.database.session import SessionLocal
+from api.database.models import Previsao
+from api.services.prediction_service import PredictionService
 
 
 app = FastAPI(
@@ -9,6 +12,8 @@ app = FastAPI(
     version="1.0.0",
     description="API utilizada para servir modelos de Machine Learning"
 )
+
+service = PredictionService()
 
 
 @app.get("/")
@@ -52,9 +57,62 @@ def empresa():
 
 
 
+
 @app.post("/predict")
+def predict(imovel:Imovel):
+    db = SessionLocal() #Conecta ao banco de dados
+    service = PredictionService() #Chama a classe de PredictionService
+    try:
+        return service.predict(db, imovel) #Chama o método que preve e salva
+    finally:
+        db.close()
+
+
+'''
+@app.post("/predict")
+def predict(imovel:Imovel):
+    #Prevendo o valor com os dados enviados pelo client
+    preco = predict(imovel)
+
+    #Abrinco sessão
+    db = SessionLocal()
+    try:
+        #Criando o objeto python para ser enviado para o banco
+        previsao = Previsao(
+            area=imovel.area,
+            quartos=imovel.quartos,
+            banheiros=imovel.banheiros,
+            garagem=imovel.garagem,
+            preco=preco
+        )
+
+        db.add(previsao)
+        db.commit()
+        db.refresh(previsao)
+        return {
+            "id": previsao.id,
+            "preco": preco
+        }
+
+    except Exception:  
+        db.rollback()
+        raise HTTPException(
+            status_code=500,
+            detail="Erro ao realizar previsão"
+        )      
+    finally:
+        db.close()
+'''
+
+
+
 def prediction(imovel:Imovel):
     return predict(imovel)
+
+
+
+
+
     '''
     try:
         return predict(imovel)

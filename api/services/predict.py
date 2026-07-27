@@ -8,6 +8,4 @@ def predict(imovel: Imovel):
         imovel.garagem * 10000
 
     )
-    return {
-        "preco_previsto": preco
-    }
+    return preco
