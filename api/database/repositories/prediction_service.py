@@ -1,6 +1,9 @@
-from api.repositories.prediction_repository import PredictionRepository
-from api.database.models import Previsao #Tabela
-from api.services.predict import predict #Modelo fazendo previsão
+#Finalização do salvamento dos bancos de dados
+from api.database.repositories.prediction_repository import PredictionRepository ###
+#Vai salvar o objeto python com os dados na tabela
+from api.database.models import Previsao
+#Modelo fazendo previsão
+from api.services.predict import predict
 
 class PredictionService:
     def __init__(self):

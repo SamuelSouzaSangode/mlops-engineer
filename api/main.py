@@ -1,10 +1,13 @@
 from fastapi import FastAPI
 from api.schemas import Imovel
-from api.services.predict import predict
+#from api.services.predict import predict
 from fastapi import HTTPException
 from api.database.session import SessionLocal
 from api.database.models import Previsao
-from api.services.prediction_service import PredictionService
+from api.database.repositories.prediction_service import PredictionService
+
+from api.database.connection import engine
+from api.database.models import Base
 
 
 app = FastAPI(
@@ -13,7 +16,9 @@ app = FastAPI(
     description="API utilizada para servir modelos de Machine Learning"
 )
 
-service = PredictionService()
+Base.metadata.create_all(bind=engine)
+
+#service = PredictionService()
 
 
 @app.get("/")
@@ -63,9 +68,18 @@ def predict(imovel:Imovel):
     db = SessionLocal() #Conecta ao banco de dados
     service = PredictionService() #Chama a classe de PredictionService
     try:
+        
         return service.predict(db, imovel) #Chama o método que preve e salva
+    
+    #except Exception:  
+        #db.rollback()
+        #raise HTTPException(
+            #status_code=500,
+            #detail="Erro ao realizar previsão"
+        #)
     finally:
         db.close()
+
 
 
 '''
@@ -105,7 +119,7 @@ def predict(imovel:Imovel):
 '''
 
 
-
+'''
 def prediction(imovel:Imovel):
     return predict(imovel)
 
@@ -113,7 +127,6 @@ def prediction(imovel:Imovel):
 
 
 
-    '''
     try:
         return predict(imovel)
     except Exception:

@@ -1,4 +1,4 @@
-class PredictionRepository:
+class PredictionRepository():
     def create(self, db, previsao):
         db.add(previsao)
         db.commit()
