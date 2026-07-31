@@ -1,10 +1,15 @@
 from fastapi import FastAPI
+
+from fastapi import Depends
+from sqlalchemy.orm import Session
+
 from api.schemas import Imovel
 #from api.services.predict import predict
 from fastapi import HTTPException
 from api.database.session import SessionLocal
 from api.database.models import Previsao
 from api.database.repositories.prediction_service import PredictionService
+from api.database.dependencies import get_db
 
 from api.database.connection import engine
 from api.database.models import Base
@@ -16,6 +21,7 @@ app = FastAPI(
     description="API utilizada para servir modelos de Machine Learning"
 )
 
+#Pegue todas as tabelas descritas no metadata e crie-as usando a conexão engine
 Base.metadata.create_all(bind=engine)
 
 #service = PredictionService()
@@ -64,21 +70,10 @@ def empresa():
 
 
 @app.post("/predict")
-def predict(imovel:Imovel):
-    db = SessionLocal() #Conecta ao banco de dados
-    service = PredictionService() #Chama a classe de PredictionService
-    try:
-        
-        return service.predict(db, imovel) #Chama o método que preve e salva
-    
-    #except Exception:  
-        #db.rollback()
-        #raise HTTPException(
-            #status_code=500,
-            #detail="Erro ao realizar previsão"
-        #)
-    finally:
-        db.close()
+def predict(imovel:Imovel, db: Session=Depends(get_db)):
+    service=PredictionService()
+    return service.predict(db, imovel)
+
 
 
 
