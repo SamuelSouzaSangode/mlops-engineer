@@ -4,6 +4,8 @@ services:
         container_name: mlops-api
         ports:
         - "${APP_PORT}:8000"
+        volumes:
+            - .:/app
     
     postgres:
         image: postgres:17
