@@ -6,6 +6,8 @@ from api.database.models import Previsao
 from api.services.predict import predict
 from api.config.settings import settings
 
+from api.ml.model import modelo
+
 from pathlib import Path
 import pandas as pd
 import joblib
@@ -17,7 +19,7 @@ class PredictionService:
         BASE_DIR = Path(__file__).resolve().parents[3]
         self.MODEL_PATH = BASE_DIR / "modelos" / settings.MODEL_VERSION / "modelo.pkl"
 
-        self.modelo_valor_casas = joblib.load(self.MODEL_PATH)
+        self.modelo_valor_casas = modelo
 
 
     def predict(self, db, imovel):
@@ -39,7 +41,8 @@ class PredictionService:
             quartos=imovel.quartos,
             banheiros=imovel.banheiros,
             garagem=imovel.garagem,
-            preco=preco
+            preco=preco,
+            versao=settings.MODEL_VERSION
         )
 
         #Fazendo os commits, salvamentos e refreshes
