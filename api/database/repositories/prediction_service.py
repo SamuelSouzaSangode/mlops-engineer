@@ -7,6 +7,7 @@ from api.services.predict import predict
 from api.config.settings import settings
 
 from api.ml.model import modelo
+from api.ml.validation import validar_imovel
 
 from pathlib import Path
 import pandas as pd
@@ -31,6 +32,7 @@ class PredictionService:
                 'garagem': [imovel.garagem]
             }
         )
+        validar_imovel(imovel)
 
         preco = float(self.modelo_valor_casas.predict(dados)[0])
         print(f'Diretório do modelo: {self.MODEL_PATH}')
@@ -53,4 +55,6 @@ class PredictionService:
             "id": previsao.id,
             "preco_previsto": previsao.preco
         }
+
+
 
