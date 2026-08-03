@@ -4,6 +4,7 @@ from api.database.repositories.prediction_repository import PredictionRepository
 from api.database.models import Previsao
 #Modelo fazendo previsão
 from api.services.predict import predict
+from api.config.settings import settings
 
 from pathlib import Path
 import pandas as pd
@@ -14,9 +15,9 @@ class PredictionService:
         #Parte de salvamento do banco e etc
         self.repository = PredictionRepository()
         BASE_DIR = Path(__file__).resolve().parents[3]
-        MODEL_PATH = BASE_DIR / "modelos" / "modelo.pkl"
+        self.MODEL_PATH = BASE_DIR / "modelos" / settings.MODEL_VERSION / "modelo.pkl"
 
-        self.modelo_valor_casas = joblib.load(MODEL_PATH)
+        self.modelo_valor_casas = joblib.load(self.MODEL_PATH)
 
 
     def predict(self, db, imovel):
@@ -30,6 +31,7 @@ class PredictionService:
         )
 
         preco = float(self.modelo_valor_casas.predict(dados)[0])
+        print(f'Diretório do modelo: {self.MODEL_PATH}')
 
         #Salvando a previsão na tabela do banco de dados
         previsao = Previsao(

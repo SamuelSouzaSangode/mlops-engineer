@@ -8,6 +8,8 @@ class Settings(BaseSettings):
     DB_USER: str
     DB_PASSWORD: str
     DB_NAME: str
+
+    MODEL_VERSION: str
     class Config:
         env_file = ".env"
 
