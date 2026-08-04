@@ -22,7 +22,7 @@ app = FastAPI(
 )
 
 #Pegue todas as tabelas descritas no metadata e crie-as usando a conexão engine
-Base.metadata.create_all(bind=engine)
+#Base.metadata.create_all(bind=engine)
 
 #service = PredictionService()
 
@@ -71,8 +71,12 @@ def empresa():
 
 @app.post("/predict")
 def predict(imovel:Imovel, db: Session=Depends(get_db)):
-    service=PredictionService()
-    return service.predict(db, imovel)
+    try:
+        service=PredictionService()
+        return service.predict(db, imovel)
+    except ValueError as e:
+        status_code=400,
+        detail=str(e)
 
 
 

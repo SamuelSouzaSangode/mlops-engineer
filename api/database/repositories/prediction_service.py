@@ -14,16 +14,21 @@ import pandas as pd
 import joblib
 
 class PredictionService:
-    def __init__(self):
+    def __init__(self, pipeline=None, repository=None):
+        '''
+        Isso serve para fazer os teste, se for none, 
+        vai usar o que importamos, 
+        se não for none, vai usar o que passamos 
+        ao chamar a classe
+        '''
+        self.modelo_valor_casas = pipeline or modelo
+        self.repository = repository or PredictionRepository()
         #Parte de salvamento do banco e etc
-        self.repository = PredictionRepository()
-        BASE_DIR = Path(__file__).resolve().parents[3]
-        self.MODEL_PATH = BASE_DIR / "modelos" / settings.MODEL_VERSION / "modelo.pkl"
 
-        self.modelo_valor_casas = modelo
-
+        #Se for None, usa o modelo e predictionRepository()
 
     def predict(self, db, imovel):
+        #Passando dados e df para passar para o modelo
         dados = pd.DataFrame(
             {
                 'area': [imovel.area],
@@ -32,12 +37,14 @@ class PredictionService:
                 'garagem': [imovel.garagem]
             }
         )
+        #Regras de negócio
         validar_imovel(imovel)
 
+        #Predição com o modelo
         preco = float(self.modelo_valor_casas.predict(dados)[0])
-        print(f'Diretório do modelo: {self.MODEL_PATH}')
 
         #Salvando a previsão na tabela do banco de dados
+        #Criando objeto python
         previsao = Previsao(
             area=imovel.area,
             quartos=imovel.quartos,
@@ -46,7 +53,7 @@ class PredictionService:
             preco=preco,
             versao=settings.MODEL_VERSION
         )
-
+        
         #Fazendo os commits, salvamentos e refreshes
         previsao = self.repository.create(db, previsao)
 
