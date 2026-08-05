@@ -35,4 +35,4 @@ jobs:
 
       - name: Build Docker
         run: |
-          docker build -t mlops-api
+          docker build -t mlops-api .
