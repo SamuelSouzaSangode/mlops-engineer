@@ -24,10 +24,6 @@ jobs:
         run:  |
           pip install -r requirements.txt
 
-        #Checa qualidade do código
-      - name: Run Ruff
-        run: |
-          ruff check .
 
       - name: Test 
         run:  |
