@@ -1,0 +1,28 @@
+name: CI
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+
+  #Git cria uma máquina ubuntu não precisa configurar nada.
+  test:
+    run-on: ubuntu-latest
+    
+    steps:
+      - name: baixa_repositorio
+      - users: actions/checkout@v4 #Baixa o seu repositório
+
+      - name: python_na_maquina
+      - users: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run:
+          pip install -r requirements.txt
+
+      - name: Test 
+        run:
+          python3 -m pytest tests/test_api.py -v

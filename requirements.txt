@@ -4,6 +4,7 @@ annotated-types==0.7.0
 anyio==4.14.2
 certifi==2026.7.22
 click==8.4.2
+coverage==7.15.3
 et_xmlfile==2.0.0
 fastapi==0.139.2
 greenlet==3.5.4
@@ -27,6 +28,7 @@ pydantic-settings==2.14.2
 pydantic_core==2.46.4
 Pygments==2.20.0
 pytest==9.1.1
+pytest-cov==7.1.0
 python-dateutil==2.9.0.post0
 python-dotenv==1.2.2
 scikit-learn==1.9.0
