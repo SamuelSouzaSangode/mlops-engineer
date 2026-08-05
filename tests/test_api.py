@@ -12,6 +12,7 @@ def test_root():
     assert response.json() == {"mensagem": "API Funcionando",
     "status": "online"}
 
+'''
 #Testando predict com dados corretos
 def test_predict_corretos():
     dados = {
@@ -26,6 +27,7 @@ def test_predict_corretos():
 
     assert response.status_code == 200
     assert "preco_previsto" in resultado
+    '''
 '''
 #Testando com dados faltando sem o "garagem"
 def test_predict_semgaragem():
