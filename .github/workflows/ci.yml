@@ -8,14 +8,14 @@ jobs:
 
   #Git cria uma máquina ubuntu não precisa configurar nada.
   test:
-    run-on: ubuntu-latest
+    runs-on: ubuntu-latest
     
     steps:
       - name: baixa_repositorio
-      - users: actions/checkout@v4 #Baixa o seu repositório
+      - uses: actions/checkout@v4 #Baixa o seu repositório
 
       - name: python_na_maquina
-      - users: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
