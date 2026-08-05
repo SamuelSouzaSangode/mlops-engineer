@@ -12,17 +12,17 @@ jobs:
     
     steps:
       - name: baixa_repositorio
-      - uses: actions/checkout@v4 #Baixa o seu repositório
+        uses: actions/checkout@v4 #Baixa o seu repositório
 
       - name: python_na_maquina
-      - uses: actions/setup-python@v5
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
       - name: Install
-        run:
+        run:  |
           pip install -r requirements.txt
 
       - name: Test 
-        run:
+        run:  |
           python3 -m pytest tests/test_api.py -v
