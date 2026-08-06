@@ -12,9 +12,7 @@ spec:
       app: mlops-api
 
   #Observe o Pod recebe a mesma label.
-  templates:
-
-
+  template:
     metadata:
       labels:
         app: mlops-api 
@@ -25,4 +23,10 @@ spec:
       - name: api
         image: samuelpa8x100/mlops-api:latest
         ports:
-        - containerPort: 8000
+          - containerPort: 8000
+
+        envFrom:
+        - configMapRef:
+            name: mlops-config
+        - secretRef:
+            name: mlops-secret

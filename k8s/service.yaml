@@ -1,0 +1,17 @@
+apiVersion: v1 #Versão
+kind: Service #tipo
+metadata: #Nome do servico
+  name: mlops-api-service 
+
+spec: 
+  type: ClusterIP #Só pode ser acessado dentro do cluster
+
+  #Essa label é exatamente a mesma do Deployment
+  #O serviço procura todos os Pods com: app: mlops-api
+  selector:
+    app: mlops-api
+
+  #Cliente acessa a porta 80 e encaminha para 8000
+  ports:
+  - port: 80
+    targetPort: 8000

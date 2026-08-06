@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mlops-config 
+
+data:
+  DB_HOST: postgres
+  DB_PORT: "5432"
+  DB_NAME: mlops
+  DB_USER: sam
+  MODEL_VERSION: v1
