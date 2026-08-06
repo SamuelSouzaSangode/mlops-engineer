@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mlops-api 
+spec:
+  replicas: 3 #Quero sempre 3 Pods
+
+  #O deployment precisa saber quais Pods pertecem a ele
+  #Ele usa labels para isso
+  selector:
+    matchLabels:
+      app: mlops-api
+
+  #Observe o Pod recebe a mesma label.
+  templates:
+
+
+    metadata:
+      labels:
+        app: mlops-api 
+
+
+    spec:
+      containers:
+      - name: api
+        image: samuelpa8x100/mlops-api:latest
+        ports:
+        - containerPort: 8000
