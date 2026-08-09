@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc 
+
+spec:
+  accessModes:
+#O volume pode ser montado para Leitura e Escrita
+#por um único Node por vez.
+    - ReadWriteOnce
+  
+  #Caso queira usar o storage do cluster, 
+  #Não escreva nada
+  storageClassName: manual
+
+  resources:
+    requests:
+      storage: 1Gi

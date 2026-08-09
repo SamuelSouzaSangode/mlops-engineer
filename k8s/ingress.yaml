@@ -1,0 +1,20 @@
+#Estrutura
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mlops-api-Ingress
+
+#Definimos as regras
+spec:
+  rules:
+  - host: api.mlops.local #Acesso por aqui, cliente.
+    http:
+      paths:
+      - path: / #Caminho da requisição da NOSSA API
+        pathType: Prefix #Podemos passa caminhos completos
+        backend: #Para onde devo mandar essa requisição?
+          service: #Para o service
+            #Ligamos ao service
+            name: mlops-api-service
+            port:
+              number: 80 #Mandar para a porta 80 do SERVICE

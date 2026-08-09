@@ -25,6 +25,42 @@ spec:
         ports:
           - containerPort: 8000
 
+        #Gerenciando recursos
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "256Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+
+        #Vê se iniciou beleza
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          failureThreshold: 30
+          periodSeconds: 5
+          #Isso permite 30x5 de toleência antes de falhar
+
+        #Vê se a aplicação está pronta para receber tráfego
+        readinessProbe:
+          httpGet: #Fará= GET http://container:8000/health
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5 #Espera 5s antes de começar a verificar
+          periodSeconds: 10 #Verifica a cada 10 segundos
+
+        #Vê se a aplicação está viva
+        livenessProbe: #Vê se okay e manda tráfego
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 20
+
+
+
         envFrom:
         - configMapRef:
             name: mlops-config
