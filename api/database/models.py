@@ -15,7 +15,7 @@ class Base(DeclarativeBase):
 
 
 class Previsao(Base):
-    __tablename__ = "previsoes"
+    __tablename__ = "previsao"
     id: Mapped[int] = mapped_column(
         Integer,
         primary_key=True

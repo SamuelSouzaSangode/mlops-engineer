@@ -1,0 +1,44 @@
+apiVersion: batch/v1
+kind: Job
+
+metadata:
+  name: mlops-db-migradtion
+
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+
+      containers:
+        - name: alembic
+          image: samuelpa8x100/mlops-api
+
+          command:
+            - alembic
+            - upgrade
+            - head
+
+          env:
+            - name: DB_HOST
+              value: postgres
+
+            - name: DB_PORT
+              value: "5432"
+
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mlops-secret
+                  key: DB_USER
+
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: mlops-secret
+                  key: DB_NAME
+
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mlops-secret
+                  key: DB_PASSWORD
