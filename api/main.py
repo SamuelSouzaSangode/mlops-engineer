@@ -22,7 +22,7 @@ app = FastAPI(
 )
 
 #Pegue todas as tabelas descritas no metadata e crie-as usando a conexão engine
-Base.metadata.create_all(bind=engine)
+#Base.metadata.create_all(bind=engine)
 
 #service = PredictionService()
 

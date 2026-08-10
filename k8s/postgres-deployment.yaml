@@ -1,10 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
+
 metadata:
   name: postgres
 
 spec:
   replicas: 1
+
   selector:
     matchLabels:
       app: postgres
@@ -13,11 +15,35 @@ spec:
     metadata:
       labels:
         app: postgres
-    
+
     spec:
       containers:
         - name: postgres
           image: postgres:17
+
+          ports:
+            - containerPort: 5432
+
+          # O primeiro nome é o que imagem procura
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mlops-secret #Nome do serviço
+                  key: DB_USER #Var dentro do serviço
+
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mlops-secret
+                  key: DB_PASSWORD
+
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: mlops-secret
+                  key: DB_NAME
+            
           volumeMounts:
             - name: postgres-storage
               mountPath: /var/lib/postgresql/data
