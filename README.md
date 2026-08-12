@@ -1191,7 +1191,7 @@ Projeto desenvolvido como parte da construção de conhecimentos práticos em:
 
 ---
 
-# ⭐ Sobre o projeto
+# Sobre o projeto
 
 Este projeto foi desenvolvido com o objetivo de demonstrar, de ponta a ponta, como transformar um modelo de Machine Learning em uma aplicação que pode ser **testada, containerizada, implantada, escalada e monitorada**, aproximando o desenvolvimento de ML das práticas utilizadas em engenharia de software e infraestrutura.
 
