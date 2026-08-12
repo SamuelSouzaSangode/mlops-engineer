@@ -2,10 +2,11 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: mlops-api-Ingress
+  name: mlops-api-ingress
 
 #Definimos as regras
 spec:
+  ingressClassName: nginx
   rules:
   - host: api.mlops.local #Acesso por aqui, cliente.
     http:
